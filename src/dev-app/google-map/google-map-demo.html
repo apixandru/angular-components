@@ -8,11 +8,12 @@
                 (mapClick)="handleClick($event)"
                 (mapMousemove)="handleMove($event)"
                 (mapRightclick)="handleRightclick()"
+                [options]="createOptions"
                 [mapTypeId]="mapTypeId">
       <map-marker-clusterer [imagePath]="markerClustererImagePath">
-        <map-marker #firstMarker="mapMarker"
-                    [position]="center"
-                    (mapClick)="clickMarker(firstMarker)"></map-marker>
+<!--        <map-marker #firstMarker="mapMarker"-->
+<!--                    [position]="center"-->
+<!--                    (mapClick)="clickMarker(firstMarker)"></map-marker>-->
         @for (markerPosition of markerPositions; track markerPosition) {
           <map-marker #marker="mapMarker"
             [position]="markerPosition"
@@ -69,6 +70,13 @@
 
     <p><label>Latitude:</label> {{display?.lat}}</p>
     <p><label>Longitude:</label> {{display?.lng}}</p>
+
+    <div>
+      <label for="polyline-checkbox">
+        Hide markers
+        <input type="checkbox" (click)="toggleHideMarkers()">
+      </label>
+    </div>
 
     <div>
       <label for="map-type">

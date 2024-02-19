@@ -91,7 +91,13 @@ export class GoogleMapDemo {
   center = {lat: 24, lng: 12};
   mapAdvancedMarkerPosition = {lat: 24, lng: 16};
   markerOptions = {draggable: false};
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  markerPositions: google.maps.LatLngLiteral[] = [this.center];
+  markerPositionsOld: google.maps.LatLngLiteral[] = [];
+  advancedMarkerPositions: google.maps.LatLngLiteral[] = [this.mapAdvancedMarkerPosition];
+  advancedMarkerPositionsOld: google.maps.LatLngLiteral[] = [];
+
+  hidden: boolean = false;
+
   zoom = 4;
   display?: google.maps.LatLngLiteral;
   isPolylineDisplayed = false;
@@ -99,6 +105,11 @@ export class GoogleMapDemo {
     path: POLYLINE_PATH,
     strokeColor: 'grey',
     strokeOpacity: 0.8,
+  };
+
+  createOptions: google.maps.MapOptions = {
+    gestureHandling: 'greedy',
+    mapId: '* YOUR MAP ID *',
   };
 
   heatmapData = this._getHeatmapData(5, 1);
@@ -318,5 +329,19 @@ export class GoogleMapDemo {
       script.addEventListener('error', reject);
       document.body.appendChild(script);
     });
+  }
+
+  toggleHideMarkers() {
+    if (this.hidden) {
+      this.advancedMarkerPositions = this.advancedMarkerPositionsOld;
+      this.markerPositions = this.markerPositionsOld;
+      this.hidden = false;
+    } else {
+      this.advancedMarkerPositionsOld = this.advancedMarkerPositions;
+      this.advancedMarkerPositions = [];
+      this.markerPositionsOld = this.markerPositions;
+      this.markerPositions = [];
+      this.hidden = true;
+    }
   }
 }
